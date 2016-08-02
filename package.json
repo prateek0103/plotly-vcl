@@ -16,9 +16,6 @@
       "email": "michael.neuhold@n-fuse.de"
     }
   ],
-  "scripts": {
-    "postinstall":"jspm install plotly=github:plotly/plotly.js -o \"{main:'dist/plotly.js'}\""
-  },
   "devDependencies": { },
   "keywords": [
     "web-component",
