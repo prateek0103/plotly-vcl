@@ -1,0 +1,3 @@
+<div class="plotcontainer">
+  <div *ngFor="let plot of plots" @animationState="plot.state" class="plot" id="{{plot.elementId}}"></div>
+</div>

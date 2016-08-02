@@ -1,0 +1,50 @@
+{
+  "name": "ng-vcl-plotly",
+  "version": "0.1.0",
+  "description": "",
+  "main": "plotly.component.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ng-vcl/plotly.git"
+  },
+  "homepage": "https://github.com/ng-vcl",
+  "license": "MIT",
+  "author": "The Ember VCL authors",
+  "contributors": [
+    {
+      "name": "Michael Neuhold",
+      "email": "michael.neuhold@n-fuse.de"
+    }
+  ],
+  "devDependencies": { },
+  "keywords": [
+    "web-component",
+    "angular2",
+    "VCL"
+  ],
+  "jspm": {
+    "dependencies": {
+      "plotly": "github:plotly/plotly.js@^1.14.1",
+      "ts": "github:frankwallis/plugin-typescript@^5.0.0"
+    },
+    "peerDependencies": {
+      "@angular/core": "npm:@angular/core@^2.0.0-rc.4"
+    },
+    "overrides": {
+      "github:plotly/plotly.js@1.14.1": {
+        "main": "dist/plotly.js"
+      },
+      "npm:@angular/core@2.0.0-rc.4": {
+        "meta": {
+          "src/*.js": {
+            "deps": [
+              "reflect-metadata",
+              "zone.js"
+            ]
+          }
+        }
+      }
+    },
+    "format": "es6"
+  }
+}
