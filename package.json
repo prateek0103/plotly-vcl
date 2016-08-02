@@ -24,7 +24,7 @@
   ],
   "jspm": {
     "dependencies": {
-      "plotly": "github:plotly/plotly.js@^1.14.1",
+      "plotly": "github:plotly/plotly.js@1.14.1",
       "ts": "github:frankwallis/plugin-typescript@^5.0.0",
       "text": "github:systemjs/plugin-text@^0.0.8"
     },
