@@ -11,6 +11,6 @@
 
 ```
 "github:plotly/plotly.js@1.15.0": {
-  "main": "./dist/index.js",
+  "main": "./dist/index.js"
 }
 ```
