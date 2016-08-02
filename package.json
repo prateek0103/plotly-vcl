@@ -9,7 +9,7 @@
   },
   "homepage": "https://github.com/ng-vcl",
   "license": "MIT",
-  "author": "The Ember VCL authors",
+  "author": "The NG VCL authors",
   "contributors": [
     {
       "name": "Michael Neuhold",
@@ -29,6 +29,11 @@
     },
     "peerDependencies": {
       "@angular/core": "npm:@angular/core@^2.0.0-rc.4"
+    },
+    "meta": {
+      "*.ts": {
+        "loader": "ts"
+      }
     },
     "overrides": {
       "github:plotly/plotly.js@1.14.1": {
