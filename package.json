@@ -25,7 +25,8 @@
   "jspm": {
     "dependencies": {
       "plotly": "github:plotly/plotly.js@^1.14.1",
-      "ts": "github:frankwallis/plugin-typescript@^5.0.0"
+      "ts": "github:frankwallis/plugin-typescript@^5.0.0",
+      "text": "github:systemjs/plugin-text@^0.0.8"
     },
     "peerDependencies": {
       "@angular/core": "npm:@angular/core@^2.0.0-rc.4"
@@ -33,6 +34,9 @@
     "meta": {
       "*.ts": {
         "loader": "ts"
+      },
+      "*.html": {
+        "loader": "text"
       }
     },
     "overrides": {
