@@ -24,7 +24,7 @@
   ],
   "jspm": {
     "dependencies": {
-      "plotly": "github:plotly/plotly.js@1.14.1",
+      "plotly": "github:plotly/plotly.js@1.15.0",
       "ts": "github:frankwallis/plugin-typescript@^5.0.0",
       "text": "github:systemjs/plugin-text@^0.0.8"
     },
@@ -40,7 +40,7 @@
       }
     },
     "overrides": {
-      "github:plotly/plotly.js@1.14.1": {
+      "github:plotly/plotly.js@1.15.0": {
         "main": "dist/plotly.js"
       },
       "npm:@angular/core@2.0.0-rc.4": {
