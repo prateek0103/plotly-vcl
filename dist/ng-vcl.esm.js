@@ -47,7 +47,7 @@ var PlotlyComponent = (function () {
     ], PlotlyComponent.prototype, "class", void 0);
     PlotlyComponent = __decorate([
         Component({
-            selector: 'plotly',
+            selector: 'vcl-plotly',
             template: "<div class=\"{{class}}\" id=\"{{elementId}}\"></div>"
         }), 
         __metadata('design:paramtypes', [])

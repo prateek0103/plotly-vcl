@@ -19,7 +19,7 @@ var PlotlyComponent = (function () {
     };
     PlotlyComponent.decorators = [
         { type: core_1.Component, args: [{
-                    selector: 'plotly',
+                    selector: 'vcl-plotly',
                     templateUrl: './plotly.component.html'
                 },] },
     ];
