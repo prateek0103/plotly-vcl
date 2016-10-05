@@ -9,6 +9,21 @@
 </vcl-plotly>
 ```
 
+```
+...
+import { VCLPlotlyModule } from 'plotly-vcl';
+...
+
+@NgModule({
+    ...
+    imports: [
+      VCLPlotlyModule
+    ]
+    ...
+})
+export class AppModule {}
+```
+
 # Including plotly.min.js
 
 To work properly you need to copy the plotly.min.js file from ```node_modules/plotly/dist/plotly.min.js``` and include it in your index.html
