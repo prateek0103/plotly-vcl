@@ -1,15 +1,6 @@
 # Usage
 
 ```
-<vcl-plotly
-  [data]="data"
-  [layout]="layout"
-  [elementId]="'myDiv1'"
-  [class]="'customClass'">
-</vcl-plotly>
-```
-
-```
 ...
 import { VCLPlotlyModule } from 'plotly-vcl';
 ...
@@ -22,6 +13,15 @@ import { VCLPlotlyModule } from 'plotly-vcl';
     ...
 })
 export class AppModule {}
+```
+
+```
+<vcl-plotly
+  [data]="data"
+  [layout]="layout"
+  [elementId]="'myDiv1'"
+  [class]="'customClass'">
+</vcl-plotly>
 ```
 
 # Including plotly.min.js
