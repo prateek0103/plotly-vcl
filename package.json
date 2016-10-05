@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ng-vcl/plotly.git"
+    "url": "https://github.com/ng-vcl/plotly-vcl.git"
   },
   "keywords": [
     "web-component",
