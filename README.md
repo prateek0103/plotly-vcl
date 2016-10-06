@@ -24,6 +24,15 @@ export class AppModule {}
 </vcl-plotly>
 ```
 
-# Including plotly.min.js
+# Importing plotly
 
-To work properly you need to copy the plotly.min.js file from ```node_modules/plotly/dist/plotly.min.js``` and include it in your index.html
+if you want to use plotly in combination with zone.js you must include plotly *before* zone.js in your project!
+
+```
+import 'plotly.js';
+
+import 'zone.js/dist/zone';
+```
+
+see also: https://github.com/plotly/plotly.js/issues/955
+
