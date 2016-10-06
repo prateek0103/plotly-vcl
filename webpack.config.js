@@ -76,6 +76,7 @@ function webpackConfig(options) {
     ],
 
     resolve: {
+      mainFields: ["webpack", "module", "browser", "main"],
       extensions: ['', '.ts', '.js', '.json'],
     },
 

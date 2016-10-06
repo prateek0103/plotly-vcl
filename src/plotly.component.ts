@@ -1,7 +1,5 @@
 import { Component, Input } from '@angular/core';
-// import * as Plotly from 'plotly.js';
-
-declare var Plotly: any;
+import * as Plotly from 'plotly.js';
 
 @Component({
   selector: 'vcl-plotly',
