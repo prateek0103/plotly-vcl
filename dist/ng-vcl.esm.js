@@ -1,5 +1,6 @@
 import { NgModule, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import * as Plotly from 'plotly.js';
 
 function __decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;

@@ -1,5 +1,6 @@
 "use strict";
 var core_1 = require('@angular/core');
+var Plotly = require('plotly.js');
 var PlotlyComponent = (function () {
     function PlotlyComponent() {
         this.initialized = false;
