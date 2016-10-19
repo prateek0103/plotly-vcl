@@ -4,18 +4,20 @@ var Plotly = require('plotly.js');
 var PlotlyComponent = (function () {
     function PlotlyComponent() {
         this.initialized = false;
+        this.elementId = 'plot';
         this.data = {};
         this.layout = {};
-        this.elementId = 'plot';
+        this.configuration = {};
         this.class = 'plot';
     }
     PlotlyComponent.prototype.ngAfterViewInit = function () {
-        Plotly.newPlot(this.elementId, this.data, this.layout);
+        Plotly.newPlot(this.elementId, this.data, this.layout, this.configuration);
         this.initialized = true;
     };
     PlotlyComponent.prototype.ngOnChanges = function (changes) {
-        if (this.initialized && this.elementId && this.data && this.layout) {
-            Plotly.newPlot(this.elementId, this.data, this.layout);
+        if (this.initialized && this.elementId && this.data && this.layout
+            && this.configuration) {
+            Plotly.newPlot(this.elementId, this.data, this.layout, this.configuration);
         }
     };
     PlotlyComponent.decorators = [
@@ -27,9 +29,10 @@ var PlotlyComponent = (function () {
     /** @nocollapse */
     PlotlyComponent.ctorParameters = [];
     PlotlyComponent.propDecorators = {
+        'elementId': [{ type: core_1.Input },],
         'data': [{ type: core_1.Input },],
         'layout': [{ type: core_1.Input },],
-        'elementId': [{ type: core_1.Input },],
+        'configuration': [{ type: core_1.Input },],
         'class': [{ type: core_1.Input },],
     };
     return PlotlyComponent;

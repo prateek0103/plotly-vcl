@@ -1,8 +1,9 @@
 export declare class PlotlyComponent {
     initialized: boolean;
+    elementId: string;
     data: any;
     layout: any;
-    elementId: string;
+    configuration: any;
     class: string;
     constructor();
     ngAfterViewInit(): void;
