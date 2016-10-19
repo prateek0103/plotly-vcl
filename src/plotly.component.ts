@@ -10,13 +10,16 @@ export class PlotlyComponent {
   initialized: boolean = false;
 
   @Input()
+  elementId: string = 'plot';
+
+  @Input()
   data: any = {};
 
   @Input()
   layout: any = {};
 
   @Input()
-  elementId: string = 'plot';
+  options: any = {};
 
   @Input()
   class: string = 'plot';
@@ -25,13 +28,13 @@ export class PlotlyComponent {
   }
 
   ngAfterViewInit() {
-    Plotly.newPlot(this.elementId, this.data, this.layout);
+    Plotly.newPlot(this.elementId, this.data, this.layout, this.options);
     this.initialized = true;
   }
 
   ngOnChanges(changes: {[propertyName: string]: any}) {
-    if (this.initialized && this.elementId && this.data && this.layout) {
-      Plotly.newPlot(this.elementId, this.data, this.layout);
+    if (this.initialized && this.elementId && this.data && this.layout && this.options) {
+      Plotly.newPlot(this.elementId, this.data, this.layout, this.options);
     }
   }
 }
