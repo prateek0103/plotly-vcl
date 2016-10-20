@@ -1,13 +1,13 @@
+import { SimpleChanges } from '@angular/core';
 export declare class PlotlyComponent {
     initialized: boolean;
     elementId: string;
+    plotClass: string;
     data: any;
     layout: any;
     configuration: any;
-    class: string;
-    constructor();
+    events: any;
     ngAfterViewInit(): void;
-    ngOnChanges(changes: {
-        [propertyName: string]: any;
-    }): void;
+    attachEventListeners(): void;
+    ngOnChanges(changes: SimpleChanges): void;
 }
