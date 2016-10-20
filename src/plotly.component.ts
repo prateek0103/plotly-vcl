@@ -1,4 +1,8 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input,
+  SimpleChanges
+} from '@angular/core';
 import * as Plotly from 'plotly.js';
 
 @Component({
@@ -10,10 +14,13 @@ export class PlotlyComponent {
   initialized: boolean = false;
 
   @Input()
-  elementId: string = 'plot';
+  elementId: string = 'elementId';
 
   @Input()
-  data: any = {};
+  plotClass: string = 'plotClass';
+
+  @Input()
+  data: any = [];
 
   @Input()
   layout: any = {};
@@ -22,20 +29,26 @@ export class PlotlyComponent {
   configuration: any = {};
 
   @Input()
-  class: string = 'plot';
-
-  constructor() {
-  }
+  events: any = [];
 
   ngAfterViewInit() {
     Plotly.newPlot(this.elementId, this.data, this.layout, this.configuration);
+    this.attachEventListeners();
     this.initialized = true;
   }
 
-  ngOnChanges(changes: { [propertyName: string]: any }) {
-    if (this.initialized && this.elementId && this.data && this.layout
-      && this.configuration) {
+  // TODO: https://plot.ly/javascript/hover-events/#triggering-hover-events
+  attachEventListeners() {
+    this.events.forEach(event => {
+      // Attach event listener on the plot.
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.initialized && this.elementId && this.data
+      && this.layout && this.configuration) {
       Plotly.newPlot(this.elementId, this.data, this.layout, this.configuration);
+      this.attachEventListeners();
     }
   }
 }
