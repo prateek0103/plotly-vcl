@@ -1,9 +1,7 @@
 # Usage
 
-```
-...
+```ts
 import { VCLPlotlyModule } from 'plotly-vcl';
-...
 
 @NgModule({
     ...
@@ -15,7 +13,7 @@ import { VCLPlotlyModule } from 'plotly-vcl';
 export class AppModule {}
 ```
 
-```
+```html
 <vcl-plotly
   [data]="data"
   [layout]="layout"
@@ -26,9 +24,10 @@ export class AppModule {}
 
 # Importing plotly
 
-if you want to use plotly in combination with zone.js you must include plotly *before* zone.js in your project!
+if you want to use plotly in combination with zone.js,
+you must include plotly *before* zone.js in your project!
 
-```
+```ts
 import 'plotly.js';
 
 import 'zone.js/dist/zone';
