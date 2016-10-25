@@ -9,17 +9,20 @@ var PlotlyComponent = (function () {
         this.data = [];
         this.layout = {};
         this.configuration = {};
-        this.events = [];
+        this.events = {};
     }
     PlotlyComponent.prototype.ngAfterViewInit = function () {
+        this.plot = document.getElementById(this.elementId);
         Plotly.newPlot(this.elementId, this.data, this.layout, this.configuration);
         this.attachEventListeners();
         this.initialized = true;
     };
-    // TODO: https://plot.ly/javascript/hover-events/#triggering-hover-events
     PlotlyComponent.prototype.attachEventListeners = function () {
-        this.events.forEach(function (event) {
-            // Attach event listener on the plot.
+        var _this = this;
+        Object.keys(this.events || {}).forEach(function (event) {
+            _this.plot.on(event, function (event, data) {
+                _this.events[event](data, event, _this.elementId, _this.plot, Plotly);
+            });
         });
     };
     PlotlyComponent.prototype.ngOnChanges = function (changes) {

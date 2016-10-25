@@ -43,7 +43,7 @@ export class PlotlyComponent {
   attachEventListeners() {
     Object.keys(this.events || {}).forEach(event => {
       this.plot.on(event, (event, data) => {
-        this.events[event](event, data, this.elementId, this.plot, Plotly);
+        this.events[event](data, event, this.elementId, this.plot, Plotly);
       });
     });
   }

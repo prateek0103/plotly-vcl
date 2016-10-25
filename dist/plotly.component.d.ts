@@ -1,6 +1,7 @@
 import { SimpleChanges } from '@angular/core';
 export declare class PlotlyComponent {
     initialized: boolean;
+    plot: any;
     elementId: string;
     plotClass: string;
     data: any;
