@@ -19,9 +19,9 @@ var PlotlyComponent = (function () {
     };
     PlotlyComponent.prototype.attachEventListeners = function () {
         var _this = this;
-        Object.keys(this.events || {}).forEach(function (event) {
-            _this.plot.on(event, function (event, data) {
-                _this.events[event](data, event, _this.elementId, _this.plot, Plotly);
+        Object.keys(this.events || {}).forEach(function (eventName) {
+            _this.plot.on(eventName, function (event, data) {
+                _this.events[eventName](data, event, _this.elementId, _this.plot, Plotly);
             });
         });
     };

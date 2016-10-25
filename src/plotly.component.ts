@@ -41,9 +41,9 @@ export class PlotlyComponent {
   }
 
   attachEventListeners() {
-    Object.keys(this.events || {}).forEach(event => {
-      this.plot.on(event, (event, data) => {
-        this.events[event](data, event, this.elementId, this.plot, Plotly);
+    Object.keys(this.events || {}).forEach(eventName => {
+      this.plot.on(eventName, (event, data) => {
+        this.events[eventName](data, event, this.elementId, this.plot, Plotly);
       });
     });
   }
