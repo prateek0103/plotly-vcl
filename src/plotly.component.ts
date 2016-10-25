@@ -13,6 +13,8 @@ export class PlotlyComponent {
 
   initialized: boolean = false;
 
+  plot: any;
+
   @Input()
   elementId: string = 'elementId';
 
@@ -29,18 +31,20 @@ export class PlotlyComponent {
   configuration: any = {};
 
   @Input()
-  events: any = [];
+  events: any = {};
 
   ngAfterViewInit() {
+    this.plot = document.getElementById(this.elementId);
     Plotly.newPlot(this.elementId, this.data, this.layout, this.configuration);
     this.attachEventListeners();
     this.initialized = true;
   }
 
-  // TODO: https://plot.ly/javascript/hover-events/#triggering-hover-events
   attachEventListeners() {
-    this.events.forEach(event => {
-      // Attach event listener on the plot.
+    Object.keys(this.events || {}).forEach(event => {
+      this.plot.on(event, (event, data) => {
+        this.events[event](event, data, this.elementId, this.plot, Plotly);
+      });
     });
   }
 
