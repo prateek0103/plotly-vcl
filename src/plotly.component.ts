@@ -64,15 +64,18 @@ export class PlotlyComponent {
 
       if (changed) {
         // console.log(this.TAG, `ngOnChanges() ${k} changed from`, change.previousValue, 'to', change.currentValue);
-        if (k === 'events') {
-          this.attachEventListeners(this.elementId, this.plot, this.events);
-          return;
-        }
+        this[k] = change.currentValue;
 
         const plotlyField: boolean = PlotlyComponent.plotlyFields.includes(k);
-        plotlyField ? this.plot[k] = change.currentValue : this[k] = change.currentValue;
+        if (plotlyField) {
+          this.plot[k] = this[k];
+        }
 
-        redraw = true;
+        if (k === 'events') {
+          this.attachEventListeners(this.elementId, this.plot, this.events);
+        } else {
+          redraw = true;
+        }
       }
     });
 
