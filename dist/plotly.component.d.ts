@@ -1,14 +1,17 @@
-import { SimpleChanges } from '@angular/core';
 export declare class PlotlyComponent {
-    initialized: boolean;
-    plot: any;
-    elementId: string;
-    plotClass: string;
-    data: any;
-    layout: any;
-    configuration: any;
-    events: any;
+    private TAG;
+    private initialized;
+    private plot;
+    private static readonly plotlyFields;
+    private elementId;
+    private plotClass;
+    private data;
+    private layout;
+    private configuration;
+    private events;
+    constructor();
+    ngOnInit(): void;
     ngAfterViewInit(): void;
-    attachEventListeners(): void;
-    ngOnChanges(changes: SimpleChanges): void;
+    attachEventListeners(elementId: string, plot: any, events: any): void;
+    ngOnChanges(changes: any): void;
 }
