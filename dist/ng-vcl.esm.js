@@ -52,17 +52,21 @@ var PlotlyComponent = (function () {
             var changed = change.previousValue !== change.currentValue;
             if (changed) {
                 // console.log(this.TAG, `ngOnChanges() ${k} changed from`, change.previousValue, 'to', change.currentValue);
+                _this[k] = change.currentValue;
+                var plotlyField = PlotlyComponent.plotlyFields.includes(k);
+                if (plotlyField) {
+                    _this.plot[k] = _this[k];
+                }
                 if (k === 'events') {
                     _this.attachEventListeners(_this.elementId, _this.plot, _this.events);
-                    return;
                 }
-                var plotlyField = PlotlyComponent.plotlyFields.includes(k);
-                plotlyField ? _this.plot[k] = change.currentValue : _this[k] = change.currentValue;
-                redraw = true;
+                else {
+                    redraw = true;
+                }
             }
         });
         if (redraw) {
-            console.log(this.TAG, "ngOnChanges() redrawing");
+            // console.log(this.TAG, `ngOnChanges() redrawing`);
             // [ts] Property 'redraw' does not exist on type 'PlotlyStatic'.
             Plotly.redraw(this.plot);
         }
