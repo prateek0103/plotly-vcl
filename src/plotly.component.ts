@@ -66,7 +66,7 @@ export class PlotlyComponent {
         // console.log(this.TAG, `ngOnChanges() ${k} changed from`, change.previousValue, 'to', change.currentValue);
         this[k] = change.currentValue;
 
-        const plotlyField: boolean = PlotlyComponent.plotlyFields.includes(k);
+        const plotlyField: boolean = includes(PlotlyComponent.plotlyFields, k);
         if (plotlyField) {
           this.plot[k] = this[k];
         }
@@ -81,8 +81,13 @@ export class PlotlyComponent {
 
     if (redraw) {
       // console.log(this.TAG, `ngOnChanges() redrawing`);
+      // console.log(this.TAG, `ngOnChanges() this:`, this);
       // [ts] Property 'redraw' does not exist on type 'PlotlyStatic'.
       (<any>Plotly).redraw(this.plot);
     }
   }
+}
+
+function includes(arr: any[], val: any): boolean {
+  return arr.indexOf(val) !== -1;
 }
