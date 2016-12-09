@@ -14,17 +14,21 @@ export class PlotlyComponent {
 
   private static readonly plotlyFields: string[] = ['data', 'layout', 'configuration', 'events'];
 
+  private static readonly recreateFields: string[] = ['elementId', 'plotClass', 'configuration'];
+
   @Input() private elementId: string = 'elementId';
 
   @Input() private plotClass: string = 'plotlyPlot';
 
-  @Input() private data: any[] = [];
+  @Input() private data: any[];
 
   @Input() private layout: any;
 
   @Input() private configuration: any;
 
   @Input() private events: any;
+
+  @Input() private debug: boolean = false;
 
   constructor() {
     // TSLint otherwise complaining about an unused variable.
@@ -36,6 +40,7 @@ export class PlotlyComponent {
   }
 
   ngAfterViewInit() {
+    // if (this.debug) console.log(this.TAG, `ngAfterViewInit() initializting`);
     Plotly.newPlot(this.elementId, this.data, this.layout, this.configuration);
     this.plot = document.getElementById(this.elementId);
     this.attachEventListeners(this.elementId, this.plot, this.events);
@@ -51,37 +56,42 @@ export class PlotlyComponent {
   }
 
   ngOnChanges(changes: any) {
-    // console.log(this.TAG, 'ngOnChanges() changes:', changes);
+    if (this.debug) console.log(this.TAG, 'ngOnChanges() changes:', changes);
     if (!this.initialized || !this.plot) {
-      // console.log(this.TAG, `ngOnChanges() ignored changes (initialized - ${this.initialized}, plot - ${this.plot})`);
+      if (this.debug) console.log(this.TAG, `ngOnChanges() ignored changes (initialized - ${this.initialized}, plot - ${this.plot})`);
       return;
     }
 
-    let redraw = false;
-    Object.keys(changes).forEach(k => {
+    // Apply changes.
+    const changedKeys: string[] = Object.keys(changes);
+    changedKeys.forEach(k => {
       const change: SimpleChange = changes[k];
-      const changed: boolean = change.previousValue !== change.currentValue;
-
-      if (changed) {
-        // console.log(this.TAG, `ngOnChanges() ${k} changed from`, change.previousValue, 'to', change.currentValue);
+      if (change.previousValue !== change.currentValue) {
+        if (this.debug) console.log(this.TAG, `ngOnChanges() ${k} changed from`, change.previousValue, 'to', change.currentValue);
         this[k] = change.currentValue;
 
         const plotlyField: boolean = includes(PlotlyComponent.plotlyFields, k);
         if (plotlyField) {
           this.plot[k] = this[k];
         }
-
-        if (k === 'events') {
-          this.attachEventListeners(this.elementId, this.plot, this.events);
-        } else {
-          redraw = true;
-        }
       }
     });
 
-    if (redraw) {
-      // console.log(this.TAG, `ngOnChanges() redrawing`);
-      // console.log(this.TAG, `ngOnChanges() this:`, this);
+    // Recreate the plot on recreateFields.
+    if (includesArr(changedKeys, PlotlyComponent.recreateFields)) {
+      if (this.debug) console.log(this.TAG, `ngOnChanges() re-creating, this:`, this);
+      this.ngAfterViewInit();
+      // If only event callbacks changed, attach them.
+    } else if (changedKeys.length === 1 && includes(changedKeys, 'events')) {
+      if (this.debug) console.log(this.TAG, `ngOnChanges() re-attaching event listeners, this:`, this);
+      this.attachEventListeners(this.elementId, this.plot, this.events);
+      // If only the layout was changed, relayout.
+    } else if (changedKeys.length === 1 && includes(changedKeys, 'layout')) {
+      if (this.debug) console.log(this.TAG, `ngOnChanges() re-layouting, this:`, this);
+      (<any>Plotly).relayout(this.plot);
+      // Redraw the plot (data changed).
+    } else {
+      if (this.debug) console.log(this.TAG, `ngOnChanges() re-drawing, this:`, this);
       // [ts] Property 'redraw' does not exist on type 'PlotlyStatic'.
       (<any>Plotly).redraw(this.plot);
     }
@@ -90,4 +100,8 @@ export class PlotlyComponent {
 
 function includes(arr: any[], val: any): boolean {
   return arr.indexOf(val) !== -1;
+}
+
+function includesArr(arr: any[], vals: any[]): boolean {
+  return vals.some(val => includes(arr, val));
 }

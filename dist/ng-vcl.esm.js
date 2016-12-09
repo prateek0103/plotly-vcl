@@ -19,7 +19,7 @@ var PlotlyComponent = (function () {
         this.initialized = false;
         this.elementId = 'elementId';
         this.plotClass = 'plotlyPlot';
-        this.data = [];
+        this.debug = false;
         // TSLint otherwise complaining about an unused variable.
         this.plotClass;
     }
@@ -27,6 +27,7 @@ var PlotlyComponent = (function () {
         this.TAG = this.TAG + "." + this.elementId;
     };
     PlotlyComponent.prototype.ngAfterViewInit = function () {
+        // if (this.debug) console.log(this.TAG, `ngAfterViewInit() initializting`);
         Plotly.newPlot(this.elementId, this.data, this.layout, this.configuration);
         this.plot = document.getElementById(this.elementId);
         this.attachEventListeners(this.elementId, this.plot, this.events);
@@ -41,38 +42,52 @@ var PlotlyComponent = (function () {
     };
     PlotlyComponent.prototype.ngOnChanges = function (changes) {
         var _this = this;
-        // console.log(this.TAG, 'ngOnChanges() changes:', changes);
+        if (this.debug)
+            console.log(this.TAG, 'ngOnChanges() changes:', changes);
         if (!this.initialized || !this.plot) {
-            // console.log(this.TAG, `ngOnChanges() ignored changes (initialized - ${this.initialized}, plot - ${this.plot})`);
+            if (this.debug)
+                console.log(this.TAG, "ngOnChanges() ignored changes (initialized - " + this.initialized + ", plot - " + this.plot + ")");
             return;
         }
-        var redraw = false;
-        Object.keys(changes).forEach(function (k) {
+        // Apply changes.
+        var changedKeys = Object.keys(changes);
+        changedKeys.forEach(function (k) {
             var change = changes[k];
-            var changed = change.previousValue !== change.currentValue;
-            if (changed) {
-                // console.log(this.TAG, `ngOnChanges() ${k} changed from`, change.previousValue, 'to', change.currentValue);
+            if (change.previousValue !== change.currentValue) {
+                if (_this.debug)
+                    console.log(_this.TAG, "ngOnChanges() " + k + " changed from", change.previousValue, 'to', change.currentValue);
                 _this[k] = change.currentValue;
                 var plotlyField = includes(PlotlyComponent.plotlyFields, k);
                 if (plotlyField) {
                     _this.plot[k] = _this[k];
                 }
-                if (k === 'events') {
-                    _this.attachEventListeners(_this.elementId, _this.plot, _this.events);
-                }
-                else {
-                    redraw = true;
-                }
             }
         });
-        if (redraw) {
-            // console.log(this.TAG, `ngOnChanges() redrawing`);
-            // console.log(this.TAG, `ngOnChanges() this:`, this);
+        // Recreate the plot on recreateFields.
+        if (includesArr(changedKeys, PlotlyComponent.recreateFields)) {
+            if (this.debug)
+                console.log(this.TAG, "ngOnChanges() re-creating, this:", this);
+            this.ngAfterViewInit();
+        }
+        else if (changedKeys.length === 1 && includes(changedKeys, 'events')) {
+            if (this.debug)
+                console.log(this.TAG, "ngOnChanges() re-attaching event listeners, this:", this);
+            this.attachEventListeners(this.elementId, this.plot, this.events);
+        }
+        else if (changedKeys.length === 1 && includes(changedKeys, 'layout')) {
+            if (this.debug)
+                console.log(this.TAG, "ngOnChanges() re-layouting, this:", this);
+            Plotly.relayout(this.plot);
+        }
+        else {
+            if (this.debug)
+                console.log(this.TAG, "ngOnChanges() re-drawing, this:", this);
             // [ts] Property 'redraw' does not exist on type 'PlotlyStatic'.
             Plotly.redraw(this.plot);
         }
     };
     PlotlyComponent.plotlyFields = ['data', 'layout', 'configuration', 'events'];
+    PlotlyComponent.recreateFields = ['elementId', 'plotClass', 'configuration'];
     __decorate([
         Input(), 
         __metadata('design:type', String)
@@ -97,6 +112,10 @@ var PlotlyComponent = (function () {
         Input(), 
         __metadata('design:type', Object)
     ], PlotlyComponent.prototype, "events", void 0);
+    __decorate([
+        Input(), 
+        __metadata('design:type', Boolean)
+    ], PlotlyComponent.prototype, "debug", void 0);
     PlotlyComponent = __decorate([
         Component({
             selector: 'vcl-plotly',
@@ -108,6 +127,9 @@ var PlotlyComponent = (function () {
 }());
 function includes(arr, val) {
     return arr.indexOf(val) !== -1;
+}
+function includesArr(arr, vals) {
+    return vals.some(function (val) { return includes(arr, val); });
 }
 
 var VCLPlotlyModule = (function () {
