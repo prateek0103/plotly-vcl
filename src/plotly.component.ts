@@ -55,14 +55,6 @@ export class PlotlyComponent {
     });
   }
 
-  removeEventListeners(elementId: string, plot: any, events: any) {
-    Object.keys(events || {}).forEach(eventName => {
-      plot.on(eventName, (event, data) => {
-        events[eventName](data, event, elementId, plot, Plotly);
-      });
-    });
-  }
-
   ngOnChanges(changes: any) {
     if (this.debug) console.log(this.TAG, 'ngOnChanges() changes:', changes);
     if (!this.initialized || !this.plot) {

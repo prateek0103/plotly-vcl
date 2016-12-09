@@ -44,13 +44,6 @@ var PlotlyComponent = (function () {
             });
         });
     };
-    PlotlyComponent.prototype.removeEventListeners = function (elementId, plot, events) {
-        Object.keys(events || {}).forEach(function (eventName) {
-            plot.on(eventName, function (event, data) {
-                events[eventName](data, event, elementId, plot, Plotly);
-            });
-        });
-    };
     PlotlyComponent.prototype.ngOnChanges = function (changes) {
         var _this = this;
         if (this.debug)
