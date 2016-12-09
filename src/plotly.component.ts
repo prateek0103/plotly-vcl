@@ -14,7 +14,7 @@ export class PlotlyComponent {
 
   private static readonly plotlyFields: string[] = ['data', 'layout', 'configuration', 'events'];
 
-  private static readonly recreateFields: string[] = ['elementId', 'plotClass', 'configuration'];
+  private static readonly recreateFields: string[] = ['elementId', 'plotClass', 'configuration', 'events'];
 
   @Input() private elementId: string = 'elementId';
 
@@ -55,6 +55,14 @@ export class PlotlyComponent {
     });
   }
 
+  removeEventListeners(elementId: string, plot: any, events: any) {
+    Object.keys(events || {}).forEach(eventName => {
+      plot.on(eventName, (event, data) => {
+        events[eventName](data, event, elementId, plot, Plotly);
+      });
+    });
+  }
+
   ngOnChanges(changes: any) {
     if (this.debug) console.log(this.TAG, 'ngOnChanges() changes:', changes);
     if (!this.initialized || !this.plot) {
@@ -81,18 +89,13 @@ export class PlotlyComponent {
     if (includesArr(changedKeys, PlotlyComponent.recreateFields)) {
       if (this.debug) console.log(this.TAG, `ngOnChanges() re-creating, this:`, this);
       this.ngAfterViewInit();
-      // If only event callbacks changed, attach them.
-    } else if (changedKeys.length === 1 && includes(changedKeys, 'events')) {
-      if (this.debug) console.log(this.TAG, `ngOnChanges() re-attaching event listeners, this:`, this);
-      this.attachEventListeners(this.elementId, this.plot, this.events);
-      // If only the layout was changed, relayout.
+    // If only the layout was changed, relayout.
     } else if (changedKeys.length === 1 && includes(changedKeys, 'layout')) {
       if (this.debug) console.log(this.TAG, `ngOnChanges() re-layouting, this:`, this);
       (<any>Plotly).relayout(this.plot);
-      // Redraw the plot (data changed).
+    // Redraw the plot (data changed).
     } else {
       if (this.debug) console.log(this.TAG, `ngOnChanges() re-drawing, this:`, this);
-      // [ts] Property 'redraw' does not exist on type 'PlotlyStatic'.
       (<any>Plotly).redraw(this.plot);
     }
   }

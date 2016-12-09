@@ -40,6 +40,13 @@ var PlotlyComponent = (function () {
             });
         });
     };
+    PlotlyComponent.prototype.removeEventListeners = function (elementId, plot, events) {
+        Object.keys(events || {}).forEach(function (eventName) {
+            plot.on(eventName, function (event, data) {
+                events[eventName](data, event, elementId, plot, Plotly);
+            });
+        });
+    };
     PlotlyComponent.prototype.ngOnChanges = function (changes) {
         var _this = this;
         if (this.debug)
@@ -69,11 +76,6 @@ var PlotlyComponent = (function () {
                 console.log(this.TAG, "ngOnChanges() re-creating, this:", this);
             this.ngAfterViewInit();
         }
-        else if (changedKeys.length === 1 && includes(changedKeys, 'events')) {
-            if (this.debug)
-                console.log(this.TAG, "ngOnChanges() re-attaching event listeners, this:", this);
-            this.attachEventListeners(this.elementId, this.plot, this.events);
-        }
         else if (changedKeys.length === 1 && includes(changedKeys, 'layout')) {
             if (this.debug)
                 console.log(this.TAG, "ngOnChanges() re-layouting, this:", this);
@@ -82,12 +84,11 @@ var PlotlyComponent = (function () {
         else {
             if (this.debug)
                 console.log(this.TAG, "ngOnChanges() re-drawing, this:", this);
-            // [ts] Property 'redraw' does not exist on type 'PlotlyStatic'.
             Plotly.redraw(this.plot);
         }
     };
     PlotlyComponent.plotlyFields = ['data', 'layout', 'configuration', 'events'];
-    PlotlyComponent.recreateFields = ['elementId', 'plotClass', 'configuration'];
+    PlotlyComponent.recreateFields = ['elementId', 'plotClass', 'configuration', 'events'];
     __decorate([
         Input(), 
         __metadata('design:type', String)

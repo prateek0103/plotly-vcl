@@ -15,5 +15,6 @@ export declare class PlotlyComponent {
     ngOnInit(): void;
     ngAfterViewInit(): void;
     attachEventListeners(elementId: string, plot: any, events: any): void;
+    removeEventListeners(elementId: string, plot: any, events: any): void;
     ngOnChanges(changes: any): void;
 }
