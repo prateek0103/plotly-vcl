@@ -1,9 +1,9 @@
 export declare class PlotlyComponent {
     private TAG;
-    private initialized;
-    private plot;
     private static readonly plotlyFields;
     private static readonly recreateFields;
+    private initialized;
+    private plot;
     private elementId;
     private plotClass;
     private data;

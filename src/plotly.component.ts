@@ -8,13 +8,13 @@ import * as Plotly from 'plotly.js';
 export class PlotlyComponent {
   private TAG: string = 'PlotlyComponent';
 
-  private initialized: boolean = false;
-
-  private plot: any;
-
   private static readonly plotlyFields: string[] = ['data', 'layout', 'configuration', 'events'];
 
   private static readonly recreateFields: string[] = ['elementId', 'plotClass', 'configuration', 'events'];
+
+  private initialized: boolean = false;
+
+  private plot: any;
 
   @Input() private elementId: string = 'elementId';
 
@@ -40,7 +40,7 @@ export class PlotlyComponent {
   }
 
   ngAfterViewInit() {
-    // if (this.debug) console.log(this.TAG, `ngAfterViewInit() initializting`);
+    if (this.debug) console.log(this.TAG, `ngAfterViewInit() initializting`);
     Plotly.newPlot(this.elementId, this.data, this.layout, this.configuration);
     this.plot = document.getElementById(this.elementId);
     this.attachEventListeners(this.elementId, this.plot, this.events);
@@ -81,11 +81,11 @@ export class PlotlyComponent {
     if (includesArr(changedKeys, PlotlyComponent.recreateFields)) {
       if (this.debug) console.log(this.TAG, `ngOnChanges() re-creating, this:`, this);
       this.ngAfterViewInit();
-    // If only the layout was changed, relayout.
+      // If only the layout was changed, relayout.
     } else if (changedKeys.length === 1 && includes(changedKeys, 'layout')) {
       if (this.debug) console.log(this.TAG, `ngOnChanges() re-layouting, this:`, this);
       (<any>Plotly).relayout(this.plot);
-    // Redraw the plot (data changed).
+      // Redraw the plot (data changed).
     } else {
       if (this.debug) console.log(this.TAG, `ngOnChanges() re-drawing, this:`, this);
       (<any>Plotly).redraw(this.plot);

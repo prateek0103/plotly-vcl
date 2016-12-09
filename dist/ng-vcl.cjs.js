@@ -31,7 +31,8 @@ var PlotlyComponent = (function () {
         this.TAG = this.TAG + "." + this.elementId;
     };
     PlotlyComponent.prototype.ngAfterViewInit = function () {
-        // if (this.debug) console.log(this.TAG, `ngAfterViewInit() initializting`);
+        if (this.debug)
+            console.log(this.TAG, "ngAfterViewInit() initializting");
         Plotly.newPlot(this.elementId, this.data, this.layout, this.configuration);
         this.plot = document.getElementById(this.elementId);
         this.attachEventListeners(this.elementId, this.plot, this.events);

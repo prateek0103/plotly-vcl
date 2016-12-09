@@ -15,10 +15,36 @@ export class AppModule {}
 
 ```html
 <vcl-plotly
+  [elementId]="'myDiv1'"
   [data]="data"
   [layout]="layout"
-  [elementId]="'myDiv1'"
-  [class]="'customClass'">
+  [configuration]="configuration"
+  [events]="events"
+  [plotClass]="'customClass'">
+</vcl-plotly>
+```
+
+## Attaching custom events
+
+The 'events' field is an object just like 'layout' and 'configuration'.
+To attach your custom events to the plotly plot, see the list of possible callbacks here
+(https://community.plot.ly/t/a-complete-list-of-plotly-events/1843) and create them like so:
+
+```
+const events = {
+  plotly_click: (data: any, event: any, plotId: string, plot: any, Plotly: any) => {
+    ...
+  }
+}
+```
+
+## Debug
+It's also possible to enable the debug flag to output information in the console.
+```html
+<vcl-plotly
+  ...
+  [debug]="true"
+  ...>
 </vcl-plotly>
 ```
 
@@ -33,5 +59,4 @@ import 'plotly.js';
 import 'zone.js/dist/zone';
 ```
 
-see also: https://github.com/plotly/plotly.js/issues/955
-
+See also: https://github.com/plotly/plotly.js/issues/955.
