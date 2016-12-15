@@ -14,6 +14,8 @@ export declare class PlotlyComponent {
     constructor();
     ngOnInit(): void;
     ngAfterViewInit(): void;
-    attachEventListeners(elementId: string, plot: any, events: any): void;
+    private attachEventListeners(elementId, plot, events);
+    addTraces(traces: any | any[], index?: number): void;
+    deleteTraces(traces: number | number[]): void;
     ngOnChanges(changes: any): void;
 }

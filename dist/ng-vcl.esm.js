@@ -41,6 +41,22 @@ var PlotlyComponent = (function () {
             });
         });
     };
+    PlotlyComponent.prototype.addTraces = function (traces, index) {
+        if (index === void 0) { index = -1; }
+        if (this.debug)
+            console.log(this.TAG, "addTraces traces (", traces, ") index (" + (index !== -1 ? index : this.data.length) + ")");
+        if (index === -1) {
+            Plotly.addTraces(this.plot, traces);
+        }
+        else {
+            Plotly.addTraces(this.plot, traces, index);
+        }
+    };
+    PlotlyComponent.prototype.deleteTraces = function (traces) {
+        if (this.debug)
+            console.log(this.TAG, "deleteTraces() traces:", traces);
+        Plotly.deleteTraces(this.plot, traces);
+    };
     PlotlyComponent.prototype.ngOnChanges = function (changes) {
         var _this = this;
         if (this.debug)

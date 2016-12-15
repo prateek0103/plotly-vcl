@@ -47,12 +47,26 @@ export class PlotlyComponent {
     this.initialized = true;
   }
 
-  attachEventListeners(elementId: string, plot: any, events: any) {
+  private attachEventListeners(elementId: string, plot: any, events: any) {
     Object.keys(events || {}).forEach(eventName => {
       plot.on(eventName, (event, data) => {
         events[eventName](data, event, elementId, plot, Plotly);
       });
     });
+  }
+
+  public addTraces(traces: any | any[], index: number = -1) {
+    if (this.debug) console.log(this.TAG, `addTraces traces (`, traces, `) index (${index !== -1 ? index : this.data.length})`);
+    if (index === -1) {
+      (<any>Plotly).addTraces(this.plot, traces);
+    } else {
+      (<any>Plotly).addTraces(this.plot, traces, index);
+    }
+  }
+
+  public deleteTraces(traces: number | number[]) {
+    if (this.debug) console.log(this.TAG, `deleteTraces() traces:`, traces);
+    (<any>Plotly).deleteTraces(this.plot, traces);
   }
 
   ngOnChanges(changes: any) {
