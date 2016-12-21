@@ -66,20 +66,28 @@ var PlotlyComponent = (function () {
                 if (plotlyField) {
                     _this.plot[k] = _this[k];
                 }
+                // It looks like either or purpose or due to a bug, the shapes in layout get
+                // ignored (and removed) from the layout object on 'relayout' call.
+                // This forces a redraw.
+                if (k === 'layout' && change.previousValue && change.currentValue && change.previousValue.shapes !== change.currentValue.shapes) {
+                    changedKeys.push('shapes');
+                }
             }
         });
-        // Recreate the plot on recreateFields.
         if (includesArr(changedKeys, PlotlyComponent.recreateFields)) {
+            // Recreate the plot on recreateFields.
             if (this.debug)
                 console.log(this.TAG, "ngOnChanges() re-creating, this:", this);
             this.ngAfterViewInit();
         }
         else if (changedKeys.length === 1 && includes(changedKeys, 'layout')) {
+            // If only the layout was changed, relayout.
             if (this.debug)
                 console.log(this.TAG, "ngOnChanges() re-layouting, this:", this);
-            Plotly.relayout(this.plot);
+            Plotly.relayout(this.plot, this.layout);
         }
         else {
+            // Redraw the plot (data or shapes changed).
             if (this.debug)
                 console.log(this.TAG, "ngOnChanges() re-drawing, this:", this);
             Plotly.redraw(this.plot);

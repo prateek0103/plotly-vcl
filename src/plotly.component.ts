@@ -9,7 +9,6 @@ export class PlotlyComponent {
   private TAG: string = 'PlotlyComponent';
 
   private static readonly plotlyFields: string[] = ['data', 'layout', 'configuration', 'events'];
-
   private static readonly recreateFields: string[] = ['elementId', 'plotClass', 'configuration', 'events'];
 
   private initialized: boolean = false;
@@ -17,15 +16,10 @@ export class PlotlyComponent {
   private plot: any;
 
   @Input() private elementId: string = 'elementId';
-
   @Input() private plotClass: string = 'plotlyPlot';
-
   @Input() private data: any[];
-
   @Input() private layout: any;
-
   @Input() private configuration: any;
-
   @Input() private events: any;
 
   @Input() private debug: boolean = false;
@@ -71,6 +65,7 @@ export class PlotlyComponent {
 
   ngOnChanges(changes: any) {
     if (this.debug) console.log(this.TAG, 'ngOnChanges() changes:', changes);
+
     if (!this.initialized || !this.plot) {
       if (this.debug) console.log(this.TAG, `ngOnChanges() ignored changes (initialized - ${this.initialized}, plot - ${this.plot})`);
       return;
@@ -88,19 +83,26 @@ export class PlotlyComponent {
         if (plotlyField) {
           this.plot[k] = this[k];
         }
+
+        // It looks like either or purpose or due to a bug, the shapes in layout get
+        // ignored (and removed) from the layout object on 'relayout' call.
+        // This forces a redraw.
+        if (k === 'layout' && change.previousValue && change.currentValue && change.previousValue.shapes !== change.currentValue.shapes) {
+          changedKeys.push('shapes');
+        }
       }
     });
 
-    // Recreate the plot on recreateFields.
     if (includesArr(changedKeys, PlotlyComponent.recreateFields)) {
+      // Recreate the plot on recreateFields.
       if (this.debug) console.log(this.TAG, `ngOnChanges() re-creating, this:`, this);
       this.ngAfterViewInit();
-      // If only the layout was changed, relayout.
     } else if (changedKeys.length === 1 && includes(changedKeys, 'layout')) {
+      // If only the layout was changed, relayout.
       if (this.debug) console.log(this.TAG, `ngOnChanges() re-layouting, this:`, this);
-      (<any>Plotly).relayout(this.plot);
-      // Redraw the plot (data changed).
+      (<any>Plotly).relayout(this.plot, this.layout);
     } else {
+      // Redraw the plot (data or shapes changed).
       if (this.debug) console.log(this.TAG, `ngOnChanges() re-drawing, this:`, this);
       (<any>Plotly).redraw(this.plot);
     }
