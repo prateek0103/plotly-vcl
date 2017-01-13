@@ -84,10 +84,10 @@ export class PlotlyComponent {
           this.plot[k] = this[k];
         }
 
-        // It looks like either or purpose or due to a bug, the shapes in layout get
+        // It looks like either on purpose or due to a bug, the shapes in layout get
         // ignored (and removed) from the layout object on 'relayout' call.
         // This forces a redraw.
-        if (k === 'layout' && change.previousValue && change.currentValue && change.previousValue.shapes !== change.currentValue.shapes) {
+        if (k === 'layout' && change.currentValue.shapes) {
           changedKeys.push('shapes');
         }
       }
