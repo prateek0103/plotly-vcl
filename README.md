@@ -28,7 +28,7 @@ export class AppModule {}
 
 The 'events' field is an object just like 'layout' and 'configuration'.
 To attach your custom events to the plotly plot, see the possible
-[event handlers](https://community.plot.ly/t/a-complete-list-of-plotly-events/1843)
+[event handlers](https://plot.ly/javascript/plotlyjs-events/)
 and create them like so:
 
 ```
